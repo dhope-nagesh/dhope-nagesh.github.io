@@ -411,6 +411,14 @@ img {
     font-weight: 600;
     color: var(--text-primary);
     margin-bottom: 14px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.skill-category h3 svg {
+    color: var(--accent);
+    flex-shrink: 0;
 }
 
 .skill-tags {
