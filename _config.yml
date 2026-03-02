@@ -1,0 +1,17 @@
+title: Nagesh Dhope
+description: Staff Software Development Engineer - Portfolio & Blog
+url: "https://dhope-nagesh.github.io"
+baseurl: ""
+
+permalink: /blog/:title/
+
+markdown: kramdown
+kramdown:
+  input: GFM
+  syntax_highlighter: rouge
+
+exclude:
+  - Gemfile
+  - Gemfile.lock
+  - README.md
+  - vendor

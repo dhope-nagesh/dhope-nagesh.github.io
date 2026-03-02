@@ -79,7 +79,7 @@ const observer = new IntersectionObserver((entries) => {
 }, observerOptions);
 
 // Add fade-in class to animatable elements
-document.querySelectorAll('.timeline-item, .project-card, .skill-category, .edu-card, .cert-card, .contact-card, .about-content, .about-stats .stat').forEach(el => {
+document.querySelectorAll('.timeline-item, .project-card, .skill-category, .edu-card, .cert-card, .blog-card, .contact-card, .about-content, .about-stats .stat').forEach(el => {
     el.classList.add('fade-in');
     observer.observe(el);
 });
