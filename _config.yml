@@ -15,3 +15,6 @@ exclude:
   - Gemfile.lock
   - README.md
   - vendor
+  - docker-compose.yml
+  - Dockerfile.dev
+  - development.md
