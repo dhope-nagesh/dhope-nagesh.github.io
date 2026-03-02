@@ -4,7 +4,7 @@ layout: default
 
 <article class="blog-post">
     <header class="blog-post-header">
-        <a href="{{ '/blog' | relative_url }}" class="back-to-blog" data-i18n="post.back">&larr; Back to blogs</a>
+        <a href="{{ '/blog' | relative_url }}" class="back-to-blog">&larr; Back to blogs</a>
         <h1>{{ page.title }}</h1>
         <div class="blog-post-meta">
             <time datetime="{{ page.date | date_to_xmlschema }}">{{ page.date | date: "%B %d, %Y" }}</time>
@@ -16,7 +16,7 @@ layout: default
             {% endif %}
             {% if page.read_time %}
             <span class="meta-separator">&middot;</span>
-            <span>{{ page.read_time }} <span data-i18n="post.minread">min read</span></span>
+            <span>{{ page.read_time }} min read</span>
             {% endif %}
         </div>
     </header>
@@ -24,6 +24,6 @@ layout: default
         {{ content }}
     </div>
     <footer class="blog-post-footer">
-        <a href="{{ '/blog' | relative_url }}" class="back-to-blog" data-i18n="post.back">&larr; Back to blogs</a>
+        <a href="{{ '/blog' | relative_url }}" class="back-to-blog">&larr; Back to blogs</a>
     </footer>
 </article>
