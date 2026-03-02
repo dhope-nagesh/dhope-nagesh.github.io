@@ -1033,6 +1033,40 @@ a.skill-tag:hover {
     overflow-x: auto;
     font-size: 0.9rem;
     line-height: 1.6;
+    position: relative;
+}
+
+.code-copy-btn {
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    background: var(--bg-primary);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 4px 8px;
+    cursor: pointer;
+    color: var(--text-muted);
+    font-size: 0.75rem;
+    font-family: inherit;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    opacity: 0;
+    transition: opacity var(--transition), color var(--transition), border-color var(--transition);
+}
+
+.blog-post-content pre:hover .code-copy-btn {
+    opacity: 1;
+}
+
+.code-copy-btn:hover {
+    color: var(--accent);
+    border-color: var(--accent);
+}
+
+.code-copy-btn.copied {
+    color: #16a34a;
+    border-color: #16a34a;
 }
 
 .blog-post-content code {
