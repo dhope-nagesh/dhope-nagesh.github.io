@@ -7,11 +7,11 @@ read_time: 10
 excerpt: "A hands-on guide to building Retrieval-Augmented Generation pipelines using LangFlow's visual interface — from document ingestion to conversational Q&A, without writing boilerplate code."
 ---
 
-In my [previous post on RAG with LangChain and PostgreSQL](/blog/getting-started-with-rag-langchain-postgresql/), I walked through building a RAG pipeline entirely in code. That approach gives you maximum control, but the iteration cycle is slow — every change means editing Python, restarting, and testing again. LangFlow changes the game by letting you build, tweak, and test RAG pipelines visually, then export production-ready code when you're satisfied.
+In my [previous post on RAG with LangChain and PostgreSQL](/blog/getting-started-with-rag-langchain-postgresql/), I walked through building a RAG pipeline entirely in code. That approach gives you maximum control, but the iteration cycle is slow — every change means editing Python, restarting, and testing again. [LangFlow](https://www.langflow.org) changes the game by letting you build, tweak, and test RAG pipelines visually, then export production-ready code when you're satisfied.
 
 ## What is LangFlow?
 
-LangFlow is an open-source visual framework for building LLM applications. It provides a drag-and-drop canvas where each component (LLM, embeddings, vector store, retriever, prompt, etc.) is a node you can wire together. Under the hood, it generates LangChain code — so everything you build visually is backed by the same library you'd use in code.
+[LangFlow](https://www.langflow.org) is an open-source visual framework for building LLM applications. It provides a drag-and-drop canvas where each component (LLM, embeddings, vector store, retriever, prompt, etc.) is a node you can wire together. Under the hood, it generates [LangChain](https://www.langchain.com) code — so everything you build visually is backed by the same library you'd use in code.
 
 Key advantages:
 
@@ -21,7 +21,7 @@ Key advantages:
 - **API-ready** — Every flow automatically gets a REST API endpoint for integration
 - **Code export** — When ready for production, export the underlying Python code
 
-## Installing LangFlow
+## Installing [LangFlow](https://docs.langflow.org/get-started-installation)
 
 ```bash
 pip install langflow
@@ -43,7 +43,7 @@ docker run -d -p 7860:7860 langflowai/langflow:latest
 
 ## Building a Document Q&A Pipeline
 
-Let's build the same RAG pipeline from my previous post — document ingestion, vector storage, and conversational Q&A — but entirely in LangFlow's visual canvas.
+Let's build the same RAG pipeline from my previous post — document ingestion, vector storage, and conversational Q&A — but entirely in [LangFlow's](https://www.langflow.org) visual canvas.
 
 ### Step 1: Document Ingestion Flow
 
@@ -71,7 +71,7 @@ Connection String: postgresql://user:pass@localhost:5432/ragdb
 Collection Name: langflow_docs
 ```
 
-Click **Run** to ingest your documents. LangFlow shows the number of chunks created and stored — no code needed.
+Click **Run** to ingest your documents. [LangFlow](https://www.langflow.org) shows the number of chunks created and stored — no code needed.
 
 ### Step 2: Query and Retrieval Flow
 
@@ -101,16 +101,16 @@ Wire it up: `Chat Input → Retriever → Prompt → LLM → Chat Output`
 
 That's it — you now have a working RAG chatbot. Use the built-in chat panel on the right to test queries immediately.
 
-## LangFlow's Playground
+## [LangFlow's](https://www.langflow.org) Playground
 
-One of LangFlow's most powerful features is the **Playground** — a built-in chat interface that lets you test your flow interactively. But it goes beyond simple Q&A:
+One of [LangFlow's](https://docs.langflow.org/concepts-playground) most powerful features is the **Playground** — a built-in chat interface that lets you test your flow interactively. But it goes beyond simple Q&A:
 
 - **Inspect intermediate outputs** — Click any node to see what data passed through it
 - **View retrieved documents** — See exactly which chunks the retriever selected and their similarity scores
 - **Tweak and re-run** — Change the chunk size, swap the LLM model, adjust `k` value, and re-run without restarting anything
 - **Conversation history** — Test multi-turn conversations to ensure context is maintained
 
-This tight feedback loop is what makes LangFlow invaluable for RAG development. You can iterate on your chunking strategy, prompt template, and retrieval parameters in real time.
+This tight feedback loop is what makes [LangFlow](https://www.langflow.org) invaluable for RAG development. You can iterate on your chunking strategy, prompt template, and retrieval parameters in real time.
 
 ## Adding Advanced RAG Patterns
 
@@ -126,7 +126,7 @@ Now the LLM can resolve references like "tell me more about that" using conversa
 
 ### Conditional Routing
 
-LangFlow supports conditional logic through **Router** nodes. A common pattern:
+[LangFlow](https://www.langflow.org) supports conditional logic through **Router** nodes. A common pattern:
 
 1. **Intent Classifier** — Determines if the question needs retrieval or is general chat
 2. **Router** — Sends retrieval questions to the RAG pipeline, general questions directly to the LLM
@@ -135,7 +135,7 @@ This prevents unnecessary vector lookups for simple greetings or off-topic quest
 
 ### Multi-Source Retrieval
 
-For applications with multiple knowledge bases, LangFlow makes it easy to combine retrievers:
+For applications with multiple knowledge bases, [LangFlow](https://www.langflow.org) makes it easy to combine retrievers:
 
 1. Add multiple vector store retriever nodes (e.g., one for docs, one for FAQs)
 2. Connect them to a **Merge** node that combines results
@@ -145,7 +145,7 @@ Visually, this is just a few extra nodes and connections. In code, this would re
 
 ## Exporting to Production
 
-LangFlow flows can be deployed in several ways:
+[LangFlow](https://www.langflow.org) flows can be deployed in several ways:
 
 ### Built-in API
 
@@ -159,7 +159,7 @@ curl -X POST "http://localhost:7860/api/v1/run/<flow-id>" \
 
 ### Python Integration
 
-Use the LangFlow SDK to call flows from your application:
+Use the [LangFlow SDK](https://docs.langflow.org/deployment-api) to call flows from your application:
 
 ```python
 from langflow.load import run_flow_from_json
@@ -174,7 +174,7 @@ print(result[0].outputs[0].results["message"].text)
 
 ### Docker Deployment
 
-For production, run LangFlow behind a reverse proxy with persistent storage:
+For production, run [LangFlow](https://www.langflow.org) behind a reverse proxy with persistent storage:
 
 ```yaml
 version: "3.8"
@@ -205,9 +205,9 @@ volumes:
 
 ## LangFlow vs Writing Code
 
-When should you use LangFlow vs raw LangChain code?
+When should you use [LangFlow](https://www.langflow.org) vs raw [LangChain](https://www.langchain.com) code?
 
-| Aspect | LangFlow | LangChain Code |
+| Aspect | [LangFlow](https://www.langflow.org) | [LangChain](https://www.langchain.com) Code |
 |--------|----------|----------------|
 | **Prototyping speed** | Fast — visual drag-and-drop | Slower — write, run, debug cycle |
 | **Debugging** | Visual node inspection | Print statements / debugger |
@@ -216,22 +216,22 @@ When should you use LangFlow vs raw LangChain code?
 | **Production control** | Good for standard patterns | Full control over execution |
 | **CI/CD integration** | Flows as JSON artifacts | Standard code pipelines |
 
-My recommendation: **start with LangFlow** to prototype and validate your RAG architecture, then export to code if you need custom logic or tighter integration with your existing services.
+My recommendation: **start with [LangFlow](https://www.langflow.org)** to prototype and validate your RAG architecture, then export to code if you need custom logic or tighter integration with your existing services.
 
 ## Best Practices
 
-1. **Version your flows** — Export flows as JSON and commit them to Git. LangFlow flows are diffable and reviewable.
+1. **Version your flows** — Export flows as JSON and commit them to Git. [LangFlow](https://www.langflow.org) flows are diffable and reviewable.
 
-2. **Use environment variables for secrets** — Never hardcode API keys in the flow. LangFlow supports `{env.OPENAI_API_KEY}` syntax in configuration fields.
+2. **Use environment variables for secrets** — Never hardcode API keys in the flow. [LangFlow](https://docs.langflow.org/configuration-global-variables) supports `{env.OPENAI_API_KEY}` syntax in configuration fields.
 
 3. **Test with the Playground first** — Before wiring up the API, use the built-in chat to validate retrieval quality and answer accuracy.
 
-4. **Monitor token usage** — LangFlow shows token counts per run. Keep an eye on this to manage costs, especially with GPT-4.
+4. **Monitor token usage** — [LangFlow](https://www.langflow.org) shows token counts per run. Keep an eye on this to manage costs, especially with GPT-4.
 
 5. **Start simple, add complexity** — Begin with a basic `Loader → Splitter → VectorStore → Retriever → LLM` chain. Add memory, routing, and re-ranking only after the baseline works.
 
 ## Conclusion
 
-LangFlow brings the power of LangChain to a visual interface without sacrificing flexibility. For RAG pipelines especially, the ability to see your data flow through each component, inspect retrieved documents, and tweak parameters in real time dramatically shortens the development cycle. Combined with PostgreSQL and pgvector for storage, you get a production-capable RAG stack that's easy to build, test, and deploy.
+[LangFlow](https://www.langflow.org) brings the power of [LangChain](https://www.langchain.com) to a visual interface without sacrificing flexibility. For RAG pipelines especially, the ability to see your data flow through each component, inspect retrieved documents, and tweak parameters in real time dramatically shortens the development cycle. Combined with [PostgreSQL](https://www.postgresql.org) and [pgvector](https://github.com/pgvector/pgvector) for storage, you get a production-capable RAG stack that's easy to build, test, and deploy.
 
-If you've been writing RAG pipelines purely in code, give LangFlow a try — you might find that your next pipeline takes minutes instead of hours.
+If you've been writing RAG pipelines purely in code, give [LangFlow](https://www.langflow.org) a try — you might find that your next pipeline takes minutes instead of hours.
