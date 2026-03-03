@@ -31,12 +31,14 @@ Jekyll-based personal portfolio and technical blog for Nagesh Dhope (Staff SDE).
 
 ### Local development
 ```bash
+# Native
 bundle install
 bundle exec jekyll serve
-# Or with Docker:
+
+# Docker (preferred)
 docker compose up
 ```
-Site runs at `http://localhost:4000`.
+Site runs at `http://localhost:4000`. Docker setup uses `Dockerfile.dev` + `docker-compose.yml` with live reload and volume-mounted sources.
 
 ### Deployment
 Push to `main` — GitHub Actions builds and deploys automatically.
