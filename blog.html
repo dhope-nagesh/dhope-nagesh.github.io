@@ -15,7 +15,13 @@ permalink: /blog/
                 <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
             </button>
             <div class="blog-dropdown-menu">
-                <input type="text" class="blog-dropdown-search" id="tagSearch" placeholder="Search topics..." autocomplete="off">
+                <div class="blog-dropdown-sticky-header">
+                    <input type="text" class="blog-dropdown-search" id="tagSearch" placeholder="Search topics..." autocomplete="off">
+                    <label class="blog-dropdown-item blog-dropdown-select-all">
+                        <input type="checkbox" class="select-all-checkbox">
+                        <span>Select All</span>
+                    </label>
+                </div>
                 {% assign all_tags = "" | split: "" %}
                 {% for post in site.posts %}
                     {% for tag in post.tags %}
@@ -40,6 +46,12 @@ permalink: /blog/
                 <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
             </button>
             <div class="blog-dropdown-menu">
+                <div class="blog-dropdown-sticky-header">
+                    <label class="blog-dropdown-item blog-dropdown-select-all">
+                        <input type="checkbox" class="select-all-checkbox">
+                        <span>Select All</span>
+                    </label>
+                </div>
                 {% assign all_dates = "" | split: "" %}
                 {% for post in site.posts %}
                     {% assign post_date = post.date | date: "%b %Y" %}
@@ -172,5 +184,46 @@ permalink: /blog/
     // Prevent dropdown from closing when clicking search input
     tagSearchInput.addEventListener('click', function(e) {
         e.stopPropagation();
+    });
+
+    // Select All / Deselect All checkbox
+    document.querySelectorAll('.select-all-checkbox').forEach(function(selectAllCb) {
+        selectAllCb.addEventListener('change', function() {
+            var dropdown = selectAllCb.closest('.blog-dropdown');
+            var checked = selectAllCb.checked;
+            dropdown.querySelectorAll('.blog-dropdown-item:not(.blog-dropdown-select-all) input[type="checkbox"]').forEach(function(cb) {
+                cb.checked = checked;
+            });
+            var dropdownId = dropdown.id;
+            var defaultLabel = dropdownId === 'tagDropdown' ? 'All Topics' : 'All Dates';
+            updateLabel(dropdownId, defaultLabel);
+            filterCards();
+        });
+    });
+
+    // Update Select All state when individual checkboxes change
+    function updateSelectAll(dropdown) {
+        var items = dropdown.querySelectorAll('.blog-dropdown-item:not(.blog-dropdown-select-all) input[type="checkbox"]');
+        var selectAllCb = dropdown.querySelector('.select-all-checkbox');
+        var allChecked = true;
+        var someChecked = false;
+        items.forEach(function(cb) {
+            if (cb.checked) someChecked = true;
+            else allChecked = false;
+        });
+        selectAllCb.checked = allChecked;
+        selectAllCb.indeterminate = someChecked && !allChecked;
+    }
+
+    document.querySelectorAll('#tagDropdown .blog-dropdown-item:not(.blog-dropdown-select-all) input[type="checkbox"]').forEach(function(cb) {
+        cb.addEventListener('change', function() {
+            updateSelectAll(document.getElementById('tagDropdown'));
+        });
+    });
+
+    document.querySelectorAll('#dateDropdown .blog-dropdown-item:not(.blog-dropdown-select-all) input[type="checkbox"]').forEach(function(cb) {
+        cb.addEventListener('change', function() {
+            updateSelectAll(document.getElementById('dateDropdown'));
+        });
     });
 </script>

@@ -998,7 +998,7 @@ a.skill-tag:hover {
     border: 1px solid var(--border);
     border-radius: var(--radius);
     box-shadow: var(--shadow-lg);
-    padding: 6px 0;
+    padding: 0 0 6px;
     z-index: 100;
     max-height: 300px;
     overflow-y: auto;
@@ -1027,11 +1027,21 @@ a.skill-tag:hover {
     display: block;
 }
 
-.blog-dropdown-search {
+.blog-dropdown-sticky-header {
     position: sticky;
     top: 0;
+    background: var(--bg-card);
+    z-index: 2;
+    border-bottom: 1px solid var(--border);
+}
+
+.blog-dropdown-select-all {
+    font-weight: 500;
+}
+
+.blog-dropdown-search {
     width: calc(100% - 16px);
-    margin: 4px 8px 6px;
+    margin: 8px 8px 4px;
     padding: 6px 10px;
     font-size: 0.83rem;
     border: 1px solid var(--border);
@@ -1039,7 +1049,6 @@ a.skill-tag:hover {
     background: var(--bg-primary);
     color: var(--text-primary);
     outline: none;
-    z-index: 1;
 }
 
 .blog-dropdown-search:focus {
