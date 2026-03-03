@@ -9,6 +9,9 @@ plugins:
   - jekyll-sitemap
   - jekyll-feed
 
+feed:
+  excerpt_only: true
+
 markdown: kramdown
 kramdown:
   input: GFM
