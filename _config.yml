@@ -5,6 +5,10 @@ baseurl: ""
 
 permalink: /blog/:title/
 
+plugins:
+  - jekyll-sitemap
+  - jekyll-feed
+
 markdown: kramdown
 kramdown:
   input: GFM

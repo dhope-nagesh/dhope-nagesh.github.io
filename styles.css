@@ -929,12 +929,37 @@ a.skill-tag:hover {
     padding: 60px 24px 100px;
 }
 
+.blog-listing-header {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    margin-bottom: 12px;
+}
+
 .blog-listing-title {
     font-size: 2rem;
     font-weight: 700;
     text-align: center;
-    margin-bottom: 12px;
     letter-spacing: -0.5px;
+}
+
+.rss-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    color: var(--text-muted);
+    font-size: 0.85rem;
+    font-weight: 500;
+    padding: 4px 10px;
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    transition: color var(--transition), border-color var(--transition);
+}
+
+.rss-link:hover {
+    color: var(--accent);
+    border-color: var(--accent);
 }
 
 .blog-listing-subtitle {
