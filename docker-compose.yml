@@ -8,9 +8,5 @@ services:
       - "35729:35729"
     volumes:
       - .:/site
-      - bundle-cache:/usr/local/bundle
     environment:
       - JEKYLL_ENV=development
-
-volumes:
-  bundle-cache:
