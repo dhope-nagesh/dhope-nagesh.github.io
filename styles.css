@@ -784,6 +784,41 @@ a.skill-tag:hover {
     color: var(--accent-hover);
 }
 
+.blog-pagination {
+    display: flex;
+    justify-content: center;
+    gap: 8px;
+    margin-top: 40px;
+}
+
+.blog-page-btn {
+    padding: 8px 14px;
+    font-size: 0.85rem;
+    font-weight: 500;
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    background: var(--bg-card);
+    color: var(--text-secondary);
+    cursor: pointer;
+    transition: all var(--transition);
+}
+
+.blog-page-btn:hover:not(.disabled):not(.active) {
+    border-color: var(--accent);
+    color: var(--accent);
+}
+
+.blog-page-btn.active {
+    background: var(--accent);
+    color: #fff;
+    border-color: var(--accent);
+}
+
+.blog-page-btn.disabled {
+    opacity: 0.4;
+    cursor: default;
+}
+
 /* ===== Contact ===== */
 .contact-intro {
     text-align: center;
