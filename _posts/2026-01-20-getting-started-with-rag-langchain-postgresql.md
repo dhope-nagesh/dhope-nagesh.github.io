@@ -2,7 +2,7 @@
 layout: post
 title: "Getting Started with RAG Using LangChain and PostgreSQL"
 date: 2026-01-20
-tags: [AI, Python]
+tags: [AI, Python, LangChain]
 read_time: 10
 excerpt: "How to build a Retrieval-Augmented Generation pipeline using LangChain, pgvector, and OpenAI embeddings for intelligent document search."
 ---
