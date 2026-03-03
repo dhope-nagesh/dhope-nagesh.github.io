@@ -910,14 +910,6 @@ a.skill-tag:hover {
     margin: 0 auto 32px;
 }
 
-.blog-filters {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    gap: 8px;
-    margin-bottom: 40px;
-}
-
 .blog-content-layout {
     display: grid;
     grid-template-columns: 1fr 180px;
@@ -925,15 +917,21 @@ a.skill-tag:hover {
     align-items: start;
 }
 
-.blog-date-sidebar {
+.blog-sidebar {
     position: sticky;
     top: calc(var(--nav-height) + 24px);
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+}
+
+.blog-sidebar-section {
     display: flex;
     flex-direction: column;
     gap: 6px;
 }
 
-.blog-date-sidebar-title {
+.blog-sidebar-title {
     font-size: 0.85rem;
     font-weight: 600;
     color: var(--text-muted);
@@ -942,7 +940,7 @@ a.skill-tag:hover {
     margin-bottom: 4px;
 }
 
-.blog-date-sidebar .blog-filter-btn {
+.blog-sidebar .blog-filter-btn {
     width: 100%;
     text-align: left;
     border-radius: var(--radius);
@@ -1282,15 +1280,18 @@ a.skill-tag:hover {
         grid-template-columns: 1fr;
     }
 
-    .blog-date-sidebar {
+    .blog-sidebar {
         position: static;
-        flex-direction: row;
-        flex-wrap: wrap;
-        justify-content: center;
         order: -1;
     }
 
-    .blog-date-sidebar .blog-filter-btn {
+    .blog-sidebar-section {
+        flex-direction: row;
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+
+    .blog-sidebar .blog-filter-btn {
         width: auto;
         text-align: center;
         border-radius: 20px;
