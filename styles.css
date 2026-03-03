@@ -973,6 +973,25 @@ a.skill-tag:hover {
     display: block;
 }
 
+.blog-dropdown-search {
+    position: sticky;
+    top: 0;
+    width: calc(100% - 16px);
+    margin: 4px 8px 6px;
+    padding: 6px 10px;
+    font-size: 0.83rem;
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    background: var(--bg-primary);
+    color: var(--text-primary);
+    outline: none;
+    z-index: 1;
+}
+
+.blog-dropdown-search:focus {
+    border-color: var(--accent);
+}
+
 .blog-dropdown-item {
     display: flex;
     align-items: center;

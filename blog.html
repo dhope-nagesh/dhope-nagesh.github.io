@@ -15,6 +15,7 @@ permalink: /blog/
                 <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
             </button>
             <div class="blog-dropdown-menu">
+                <input type="text" class="blog-dropdown-search" id="tagSearch" placeholder="Search topics..." autocomplete="off">
                 {% assign all_tags = "" | split: "" %}
                 {% for post in site.posts %}
                     {% for tag in post.tags %}
@@ -156,5 +157,20 @@ permalink: /blog/
             updateLabel('dateDropdown', 'All Dates');
             filterCards();
         });
+    });
+
+    // Search within topics dropdown
+    var tagSearchInput = document.getElementById('tagSearch');
+    tagSearchInput.addEventListener('input', function() {
+        var query = tagSearchInput.value.toLowerCase();
+        document.querySelectorAll('#tagDropdown .blog-dropdown-item').forEach(function(item) {
+            var text = item.querySelector('span').textContent.toLowerCase();
+            item.style.display = text.indexOf(query) !== -1 ? '' : 'none';
+        });
+    });
+
+    // Prevent dropdown from closing when clicking search input
+    tagSearchInput.addEventListener('click', function(e) {
+        e.stopPropagation();
     });
 </script>
