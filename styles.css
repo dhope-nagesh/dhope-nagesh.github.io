@@ -692,9 +692,10 @@ a.skill-tag:hover {
 }
 
 /* ===== Blogs ===== */
-.blogs-grid {
+#blogs .blogs-grid,
+.blog-listing .blogs-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    grid-template-columns: repeat(2, minmax(0, 1fr));
     gap: 24px;
 }
 
@@ -1397,6 +1398,11 @@ a.skill-tag:hover {
     }
 
     .projects-grid {
+        grid-template-columns: 1fr;
+    }
+
+    #blogs .blogs-grid,
+    .blog-listing .blogs-grid {
         grid-template-columns: 1fr;
     }
 
