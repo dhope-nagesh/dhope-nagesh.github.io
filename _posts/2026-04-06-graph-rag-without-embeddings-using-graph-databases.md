@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "Graph RAG Without Embeddings: Using Graph Databases for Better Retrieval"
+title: "RAG Without Embeddings: Using Graph Databases for Better Retrieval"
 date: 2026-04-06
 tags: [AI, Python, Performance]
 read_time: 13
