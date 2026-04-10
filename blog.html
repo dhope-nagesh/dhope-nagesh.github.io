@@ -14,6 +14,14 @@ permalink: /blog/
     </div>
     <p class="blog-listing-subtitle">Thoughts on cloud-native development, Kubernetes, Go, AI, and distributed systems.</p>
 
+    <div class="blog-search-container">
+        <svg class="blog-search-icon" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+        <input type="text" class="blog-search-input" id="blogSearch" placeholder="Search blogs..." autocomplete="off">
+        <button class="blog-search-clear" id="searchClear" type="button" style="display: none;">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+        </button>
+    </div>
+
     <div class="blog-filters">
         <div class="blog-dropdown" id="tagDropdown">
             <button class="blog-dropdown-toggle" type="button">
@@ -77,7 +85,7 @@ permalink: /blog/
 
     <div class="blogs-grid" id="blogsGrid">
         {% for post in site.posts %}
-        <article class="blog-card" data-tags="{{ post.tags | join: ',' }}" data-date="{{ post.date | date: '%b %Y' }}">
+        <article class="blog-card" data-tags="{{ post.tags | join: ',' }}" data-date="{{ post.date | date: '%b %Y' }}" data-title="{{ post.title | downcase }}" data-excerpt="{{ post.excerpt | strip_html | truncatewords: 50 | downcase }}">
             <div class="blog-meta">
                 <span class="blog-date">{{ post.date | date: "%b %Y" }}</span>
                 {% for tag in post.tags %}
@@ -93,10 +101,27 @@ permalink: /blog/
         </article>
         {% endfor %}
     </div>
+
+    <div class="blog-pagination" id="blogPagination">
+        <button class="pagination-btn pagination-prev" id="prevPage" disabled>
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
+            <span>Previous</span>
+        </button>
+        <div class="pagination-numbers" id="paginationNumbers"></div>
+        <button class="pagination-btn pagination-next" id="nextPage">
+            <span>Next</span>
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
+        </button>
+    </div>
+
+    <div class="blog-pagination-info" id="paginationInfo"></div>
 </div>
 
 <script>
-    var cards = document.querySelectorAll('#blogsGrid .blog-card');
+    var allCards = Array.prototype.slice.call(document.querySelectorAll('#blogsGrid .blog-card'));
+    var ITEMS_PER_PAGE = 6;
+    var currentPage = 1;
+    var filteredCards = allCards.slice();
 
     // Toggle dropdown open/close
     document.querySelectorAll('.blog-dropdown-toggle').forEach(function(btn) {
@@ -104,7 +129,6 @@ permalink: /blog/
             e.stopPropagation();
             var dropdown = btn.parentElement;
             var isOpen = dropdown.classList.contains('open');
-            // Close all dropdowns first
             document.querySelectorAll('.blog-dropdown.open').forEach(function(d) {
                 d.classList.remove('open');
             });
@@ -128,7 +152,7 @@ permalink: /blog/
 
     function getCheckedValues(dropdownId) {
         var checked = [];
-        document.querySelectorAll('#' + dropdownId + ' input[type="checkbox"]:checked').forEach(function(cb) {
+        document.querySelectorAll('#' + dropdownId + ' .blog-dropdown-item:not(.blog-dropdown-select-all) input[type="checkbox"]:checked').forEach(function(cb) {
             checked.push(cb.value);
         });
         return checked;
@@ -146,48 +170,209 @@ permalink: /blog/
         }
     }
 
-    function filterCards() {
+    function filterAndPaginate() {
         var selectedTags = getCheckedValues('tagDropdown');
         var selectedDates = getCheckedValues('dateDropdown');
+        var searchQuery = document.getElementById('blogSearch').value.toLowerCase().trim();
 
-        cards.forEach(function(card) {
+        filteredCards = allCards.filter(function(card) {
             var cardTags = card.getAttribute('data-tags').split(',');
             var cardDate = card.getAttribute('data-date');
+            var cardTitle = card.getAttribute('data-title') || '';
+            var cardExcerpt = card.getAttribute('data-excerpt') || '';
 
             var tagMatch = selectedTags.length === 0 || selectedTags.some(function(t) {
                 return cardTags.indexOf(t) !== -1;
             });
             var dateMatch = selectedDates.length === 0 || selectedDates.indexOf(cardDate) !== -1;
+            var searchMatch = searchQuery === '' ||
+                cardTitle.indexOf(searchQuery) !== -1 ||
+                cardExcerpt.indexOf(searchQuery) !== -1 ||
+                cardTags.some(function(tag) {
+                    return tag.toLowerCase().indexOf(searchQuery) !== -1;
+                });
 
-            card.style.display = tagMatch && dateMatch ? '' : 'none';
+            return tagMatch && dateMatch && searchMatch;
         });
+
+        currentPage = 1;
+        renderPage();
     }
 
+    function renderPage() {
+        var totalPages = Math.ceil(filteredCards.length / ITEMS_PER_PAGE);
+        if (totalPages === 0) totalPages = 1;
+
+        var startIndex = (currentPage - 1) * ITEMS_PER_PAGE;
+        var endIndex = startIndex + ITEMS_PER_PAGE;
+
+        // Hide all cards first
+        allCards.forEach(function(card) {
+            card.style.display = 'none';
+        });
+
+        // Show only cards for current page
+        filteredCards.slice(startIndex, endIndex).forEach(function(card) {
+            card.style.display = '';
+        });
+
+        // Update pagination controls
+        updatePaginationControls(totalPages);
+        updatePaginationInfo();
+    }
+
+    function updatePaginationControls(totalPages) {
+        var prevBtn = document.getElementById('prevPage');
+        var nextBtn = document.getElementById('nextPage');
+        var numbersContainer = document.getElementById('paginationNumbers');
+
+        prevBtn.disabled = currentPage === 1;
+        nextBtn.disabled = currentPage === totalPages;
+
+        // Generate page numbers
+        numbersContainer.innerHTML = '';
+
+        if (totalPages <= 7) {
+            for (var i = 1; i <= totalPages; i++) {
+                numbersContainer.appendChild(createPageButton(i));
+            }
+        } else {
+            // Always show first page
+            numbersContainer.appendChild(createPageButton(1));
+
+            if (currentPage > 3) {
+                numbersContainer.appendChild(createEllipsis());
+            }
+
+            // Show pages around current
+            var start = Math.max(2, currentPage - 1);
+            var end = Math.min(totalPages - 1, currentPage + 1);
+
+            if (currentPage <= 3) {
+                end = 4;
+            }
+            if (currentPage >= totalPages - 2) {
+                start = totalPages - 3;
+            }
+
+            for (var i = start; i <= end; i++) {
+                numbersContainer.appendChild(createPageButton(i));
+            }
+
+            if (currentPage < totalPages - 2) {
+                numbersContainer.appendChild(createEllipsis());
+            }
+
+            // Always show last page
+            numbersContainer.appendChild(createPageButton(totalPages));
+        }
+
+        // Show/hide pagination based on total pages
+        var paginationContainer = document.getElementById('blogPagination');
+        paginationContainer.style.display = totalPages > 1 ? 'flex' : 'none';
+    }
+
+    function createPageButton(pageNum) {
+        var btn = document.createElement('button');
+        btn.className = 'pagination-num' + (pageNum === currentPage ? ' active' : '');
+        btn.textContent = pageNum;
+        btn.addEventListener('click', function() {
+            currentPage = pageNum;
+            renderPage();
+            scrollToTop();
+        });
+        return btn;
+    }
+
+    function createEllipsis() {
+        var span = document.createElement('span');
+        span.className = 'pagination-ellipsis';
+        span.textContent = '...';
+        return span;
+    }
+
+    function updatePaginationInfo() {
+        var infoContainer = document.getElementById('paginationInfo');
+        var total = filteredCards.length;
+        var start = total === 0 ? 0 : (currentPage - 1) * ITEMS_PER_PAGE + 1;
+        var end = Math.min(currentPage * ITEMS_PER_PAGE, total);
+
+        if (total === 0) {
+            infoContainer.textContent = 'No posts found';
+        } else {
+            infoContainer.textContent = 'Showing ' + start + '-' + end + ' of ' + total + ' posts';
+        }
+    }
+
+    function scrollToTop() {
+        document.querySelector('.blog-listing').scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+
+    // Prev/Next buttons
+    document.getElementById('prevPage').addEventListener('click', function() {
+        if (currentPage > 1) {
+            currentPage--;
+            renderPage();
+            scrollToTop();
+        }
+    });
+
+    document.getElementById('nextPage').addEventListener('click', function() {
+        var totalPages = Math.ceil(filteredCards.length / ITEMS_PER_PAGE);
+        if (currentPage < totalPages) {
+            currentPage++;
+            renderPage();
+            scrollToTop();
+        }
+    });
+
+    // Filter change handlers
     document.querySelectorAll('#tagDropdown input[type="checkbox"]').forEach(function(cb) {
         cb.addEventListener('change', function() {
             updateLabel('tagDropdown', 'All Topics');
-            filterCards();
+            filterAndPaginate();
         });
     });
 
     document.querySelectorAll('#dateDropdown input[type="checkbox"]').forEach(function(cb) {
         cb.addEventListener('change', function() {
             updateLabel('dateDropdown', 'All Dates');
-            filterCards();
+            filterAndPaginate();
         });
+    });
+
+    // Blog search input
+    var blogSearchInput = document.getElementById('blogSearch');
+    var searchClearBtn = document.getElementById('searchClear');
+    var searchDebounceTimer;
+
+    blogSearchInput.addEventListener('input', function() {
+        clearTimeout(searchDebounceTimer);
+        searchDebounceTimer = setTimeout(function() {
+            filterAndPaginate();
+        }, 200);
+
+        // Show/hide clear button
+        searchClearBtn.style.display = blogSearchInput.value ? 'flex' : 'none';
+    });
+
+    searchClearBtn.addEventListener('click', function() {
+        blogSearchInput.value = '';
+        searchClearBtn.style.display = 'none';
+        filterAndPaginate();
+        blogSearchInput.focus();
     });
 
     // Search within topics dropdown
     var tagSearchInput = document.getElementById('tagSearch');
     tagSearchInput.addEventListener('input', function() {
         var query = tagSearchInput.value.toLowerCase();
-        document.querySelectorAll('#tagDropdown .blog-dropdown-item').forEach(function(item) {
+        document.querySelectorAll('#tagDropdown .blog-dropdown-item:not(.blog-dropdown-select-all)').forEach(function(item) {
             var text = item.querySelector('span').textContent.toLowerCase();
             item.style.display = text.indexOf(query) !== -1 ? '' : 'none';
         });
     });
 
-    // Prevent dropdown from closing when clicking search input
     tagSearchInput.addEventListener('click', function(e) {
         e.stopPropagation();
     });
@@ -198,12 +383,14 @@ permalink: /blog/
             var dropdown = selectAllCb.closest('.blog-dropdown');
             var checked = selectAllCb.checked;
             dropdown.querySelectorAll('.blog-dropdown-item:not(.blog-dropdown-select-all) input[type="checkbox"]').forEach(function(cb) {
-                cb.checked = checked;
+                if (cb.closest('.blog-dropdown-item').style.display !== 'none') {
+                    cb.checked = checked;
+                }
             });
             var dropdownId = dropdown.id;
             var defaultLabel = dropdownId === 'tagDropdown' ? 'All Topics' : 'All Dates';
             updateLabel(dropdownId, defaultLabel);
-            filterCards();
+            filterAndPaginate();
         });
     });
 
@@ -232,4 +419,7 @@ permalink: /blog/
             updateSelectAll(document.getElementById('dateDropdown'));
         });
     });
+
+    // Initial render
+    renderPage();
 </script>

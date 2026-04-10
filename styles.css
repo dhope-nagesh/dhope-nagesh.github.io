@@ -971,6 +971,65 @@ a.skill-tag:hover {
     margin: 0 auto 32px;
 }
 
+.blog-search-container {
+    position: relative;
+    max-width: 500px;
+    margin: 0 auto 24px;
+}
+
+.blog-search-icon {
+    position: absolute;
+    left: 14px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--text-muted);
+    pointer-events: none;
+}
+
+.blog-search-input {
+    width: 100%;
+    padding: 12px 44px;
+    font-size: 1rem;
+    background: var(--bg-secondary);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    color: var(--text-primary);
+    transition: border-color var(--transition), box-shadow var(--transition);
+}
+
+.blog-search-input:focus {
+    outline: none;
+    border-color: var(--accent);
+    box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1);
+}
+
+.blog-search-input::placeholder {
+    color: var(--text-muted);
+}
+
+.blog-search-clear {
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 28px;
+    height: 28px;
+    background: transparent;
+    border: none;
+    border-radius: 50%;
+    color: var(--text-muted);
+    cursor: pointer;
+    transition: background var(--transition), color var(--transition);
+}
+
+.blog-search-clear:hover {
+    background: var(--bg-primary);
+    color: var(--text-primary);
+}
+
 .blog-filters {
     display: flex;
     justify-content: flex-end;
@@ -1103,6 +1162,119 @@ a.skill-tag:hover {
     width: 14px;
     height: 14px;
     flex-shrink: 0;
+}
+
+/* ===== Blog Pagination ===== */
+.blog-pagination {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    margin-top: 48px;
+    padding-top: 32px;
+    border-top: 1px solid var(--border);
+}
+
+.pagination-btn {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 10px 16px;
+    background: var(--bg-secondary);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    color: var(--text-secondary);
+    font-size: 0.9rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all var(--transition);
+}
+
+.pagination-btn:hover:not(:disabled) {
+    background: var(--bg-primary);
+    border-color: var(--accent);
+    color: var(--accent);
+}
+
+.pagination-btn:disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
+}
+
+.pagination-btn svg {
+    flex-shrink: 0;
+}
+
+.pagination-numbers {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+}
+
+.pagination-num {
+    min-width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: transparent;
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    color: var(--text-secondary);
+    font-size: 0.9rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all var(--transition);
+}
+
+.pagination-num:hover {
+    background: var(--bg-secondary);
+    border-color: var(--accent);
+    color: var(--accent);
+}
+
+.pagination-num.active {
+    background: var(--accent);
+    border-color: var(--accent);
+    color: white;
+}
+
+.pagination-ellipsis {
+    min-width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--text-muted);
+    font-size: 0.9rem;
+}
+
+.blog-pagination-info {
+    text-align: center;
+    margin-top: 16px;
+    color: var(--text-muted);
+    font-size: 0.85rem;
+}
+
+@media (max-width: 600px) {
+    .blog-pagination {
+        flex-wrap: wrap;
+        gap: 12px;
+    }
+
+    .pagination-btn span {
+        display: none;
+    }
+
+    .pagination-btn {
+        padding: 10px 12px;
+    }
+
+    .pagination-num {
+        min-width: 36px;
+        height: 36px;
+        font-size: 0.85rem;
+    }
 }
 
 /* ===== Blog Post Page ===== */
@@ -1307,6 +1479,9 @@ a.skill-tag:hover {
 .blog-post-content img {
     border-radius: var(--radius);
     margin: 24px 0;
+    max-width: 100%;
+    height: auto;
+    display: block;
 }
 
 /* ===== Blog Post Footer ===== */

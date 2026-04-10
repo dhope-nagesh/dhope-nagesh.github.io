@@ -1,0 +1,78 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="800" height="400" viewBox="0 0 800 400" preserveAspectRatio="xMidYMid meet">
+  <defs>
+    <marker id="arrowhead" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" fill="#6366f1"/>
+    </marker>
+    <linearGradient id="clientGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#818cf8;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#6366f1;stop-opacity:1" />
+    </linearGradient>
+    <linearGradient id="serverGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#34d399;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#10b981;stop-opacity:1" />
+    </linearGradient>
+    <linearGradient id="dbGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#fbbf24;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#f59e0b;stop-opacity:1" />
+    </linearGradient>
+  </defs>
+
+  <!-- Background -->
+  <rect width="800" height="400" fill="#0f172a"/>
+
+  <!-- Title -->
+  <text x="400" y="35" text-anchor="middle" fill="#f1f5f9" font-family="Arial, sans-serif" font-size="18" font-weight="bold">Idempotent Request Flow</text>
+
+  <!-- Client -->
+  <rect x="40" y="80" width="120" height="60" rx="8" fill="url(#clientGrad)"/>
+  <text x="100" y="115" text-anchor="middle" fill="white" font-family="Arial, sans-serif" font-size="14" font-weight="bold">Client</text>
+
+  <!-- API Server -->
+  <rect x="340" y="80" width="120" height="60" rx="8" fill="url(#serverGrad)"/>
+  <text x="400" y="115" text-anchor="middle" fill="white" font-family="Arial, sans-serif" font-size="14" font-weight="bold">API Server</text>
+
+  <!-- Database -->
+  <ellipse cx="670" cy="110" rx="60" ry="30" fill="url(#dbGrad)"/>
+  <text x="670" y="115" text-anchor="middle" fill="white" font-family="Arial, sans-serif" font-size="14" font-weight="bold">Database</text>
+
+  <!-- Request 1: First Request -->
+  <text x="40" y="180" fill="#94a3b8" font-family="Arial, sans-serif" font-size="12">1. First Request</text>
+  <line x1="160" y1="195" x2="330" y2="195" stroke="#6366f1" stroke-width="2" marker-end="url(#arrowhead)"/>
+  <text x="245" y="188" text-anchor="middle" fill="#a5b4fc" font-family="monospace" font-size="10">idempotency_key: abc123</text>
+
+  <!-- Check DB -->
+  <line x1="460" y1="195" x2="600" y2="195" stroke="#10b981" stroke-width="2" marker-end="url(#arrowhead)"/>
+  <text x="530" y="188" text-anchor="middle" fill="#6ee7b7" font-family="monospace" font-size="10">Check key exists?</text>
+
+  <!-- Not Found -->
+  <line x1="600" y1="210" x2="460" y2="210" stroke="#f59e0b" stroke-width="2" stroke-dasharray="5,5" marker-end="url(#arrowhead)"/>
+  <text x="530" y="225" text-anchor="middle" fill="#fcd34d" font-family="monospace" font-size="10">Not found</text>
+
+  <!-- Process & Store -->
+  <line x1="460" y1="240" x2="600" y2="240" stroke="#10b981" stroke-width="2" marker-end="url(#arrowhead)"/>
+  <text x="530" y="255" text-anchor="middle" fill="#6ee7b7" font-family="monospace" font-size="10">Process + Store result</text>
+
+  <!-- Response 1 -->
+  <line x1="330" y1="270" x2="160" y2="270" stroke="#6366f1" stroke-width="2" marker-end="url(#arrowhead)"/>
+  <text x="245" y="285" text-anchor="middle" fill="#a5b4fc" font-family="monospace" font-size="10">Response: 200 OK</text>
+
+  <!-- Divider -->
+  <line x1="40" y1="310" x2="760" y2="310" stroke="#334155" stroke-width="1" stroke-dasharray="10,5"/>
+
+  <!-- Request 2: Retry -->
+  <text x="40" y="335" fill="#94a3b8" font-family="Arial, sans-serif" font-size="12">2. Retry (same key)</text>
+  <line x1="160" y1="350" x2="330" y2="350" stroke="#6366f1" stroke-width="2" marker-end="url(#arrowhead)"/>
+  <text x="245" y="343" text-anchor="middle" fill="#a5b4fc" font-family="monospace" font-size="10">idempotency_key: abc123</text>
+
+  <!-- Check DB again -->
+  <line x1="460" y1="350" x2="600" y2="350" stroke="#10b981" stroke-width="2" marker-end="url(#arrowhead)"/>
+  <text x="530" y="343" text-anchor="middle" fill="#6ee7b7" font-family="monospace" font-size="10">Check key exists?</text>
+
+  <!-- Found with cached response -->
+  <line x1="600" y1="365" x2="460" y2="365" stroke="#f59e0b" stroke-width="2" marker-end="url(#arrowhead)"/>
+  <text x="530" y="380" text-anchor="middle" fill="#fcd34d" font-family="monospace" font-size="10">Found! Return cached</text>
+
+  <!-- Response 2 - same as before -->
+  <line x1="330" y1="380" x2="160" y2="380" stroke="#6366f1" stroke-width="2" marker-end="url(#arrowhead)"/>
+  <text x="245" y="393" text-anchor="middle" fill="#a5b4fc" font-family="monospace" font-size="10">Response: 200 OK (cached)</text>
+</svg>
