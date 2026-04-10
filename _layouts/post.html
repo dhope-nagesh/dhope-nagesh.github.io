@@ -2,28 +2,149 @@
 layout: default
 ---
 
-<article class="blog-post">
-    <header class="blog-post-header">
-        <a href="{{ '/blog' | relative_url }}" class="back-to-blog">&larr; Back to blogs</a>
-        <h1>{{ page.title }}</h1>
-        <div class="blog-post-meta">
-            <time datetime="{{ page.date | date_to_xmlschema }}">{{ page.date | date: "%B %d, %Y" }}</time>
-            {% if page.tags.size > 0 %}
-            <span class="meta-separator">&middot;</span>
-            {% for tag in page.tags %}
-            <span class="blog-tag">{{ tag }}</span>
-            {% endfor %}
-            {% endif %}
-            {% if page.read_time %}
-            <span class="meta-separator">&middot;</span>
-            <span>{{ page.read_time }} min read</span>
-            {% endif %}
+<div class="blog-post-wrapper">
+    <article class="blog-post">
+        <header class="blog-post-header">
+            <a href="{{ '/blog' | relative_url }}" class="back-to-blog">&larr; Back to blogs</a>
+            <h1>{{ page.title }}</h1>
+            <div class="blog-post-meta">
+                <time datetime="{{ page.date | date_to_xmlschema }}">{{ page.date | date: "%B %d, %Y" }}</time>
+                {% if page.tags.size > 0 %}
+                <span class="meta-separator">&middot;</span>
+                {% for tag in page.tags %}
+                <span class="blog-tag">{{ tag }}</span>
+                {% endfor %}
+                {% endif %}
+                {% if page.read_time %}
+                <span class="meta-separator">&middot;</span>
+                <span>{{ page.read_time }} min read</span>
+                {% endif %}
+            </div>
+        </header>
+        <div class="blog-post-content">
+            {{ content }}
         </div>
-    </header>
-    <div class="blog-post-content">
-        {{ content }}
-    </div>
-    <footer class="blog-post-footer">
-        <a href="{{ '/blog' | relative_url }}" class="back-to-blog">&larr; Back to blogs</a>
-    </footer>
-</article>
+        <footer class="blog-post-footer">
+            <a href="{{ '/blog' | relative_url }}" class="back-to-blog">&larr; Back to blogs</a>
+        </footer>
+    </article>
+
+    <aside class="blog-toc-sidebar" id="tocSidebar">
+        <div class="blog-toc-container">
+            <h4 class="blog-toc-title">On this page</h4>
+            <nav class="blog-toc-nav" id="tocNav"></nav>
+        </div>
+    </aside>
+</div>
+
+<button class="toc-mobile-toggle" id="tocMobileToggle" aria-label="Toggle table of contents">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+</button>
+
+<script>
+(function() {
+    var content = document.querySelector('.blog-post-content');
+    var tocNav = document.getElementById('tocNav');
+    var tocSidebar = document.getElementById('tocSidebar');
+    var tocMobileToggle = document.getElementById('tocMobileToggle');
+
+    if (!content || !tocNav) return;
+
+    // Get all h2 and h3 headings
+    var headings = content.querySelectorAll('h2, h3');
+
+    if (headings.length < 2) {
+        // Hide TOC if less than 2 headings
+        tocSidebar.style.display = 'none';
+        tocMobileToggle.style.display = 'none';
+        return;
+    }
+
+    // Generate TOC
+    var tocHTML = '<ul class="blog-toc-list">';
+    var h2Counter = 0;
+
+    headings.forEach(function(heading, index) {
+        // Create ID if not exists
+        if (!heading.id) {
+            var slug = heading.textContent
+                .toLowerCase()
+                .replace(/[^\w\s-]/g, '')
+                .replace(/\s+/g, '-')
+                .replace(/-+/g, '-')
+                .trim();
+            heading.id = slug || 'heading-' + index;
+        }
+
+        var isH3 = heading.tagName.toLowerCase() === 'h3';
+        var itemClass = isH3 ? 'blog-toc-item blog-toc-item-h3' : 'blog-toc-item';
+
+        tocHTML += '<li class="' + itemClass + '">';
+        tocHTML += '<a href="#' + heading.id + '" class="blog-toc-link" data-target="' + heading.id + '">';
+        tocHTML += heading.textContent;
+        tocHTML += '</a></li>';
+    });
+
+    tocHTML += '</ul>';
+    tocNav.innerHTML = tocHTML;
+
+    // Smooth scroll on click
+    var tocLinks = tocNav.querySelectorAll('.blog-toc-link');
+    tocLinks.forEach(function(link) {
+        link.addEventListener('click', function(e) {
+            e.preventDefault();
+            var targetId = this.getAttribute('data-target');
+            var target = document.getElementById(targetId);
+            if (target) {
+                var offset = 80;
+                var targetPosition = target.getBoundingClientRect().top + window.pageYOffset - offset;
+                window.scrollTo({ top: targetPosition, behavior: 'smooth' });
+
+                // Close mobile TOC if open
+                if (tocSidebar.classList.contains('mobile-open')) {
+                    tocSidebar.classList.remove('mobile-open');
+                }
+            }
+        });
+    });
+
+    // Highlight active section on scroll
+    var observerOptions = {
+        root: null,
+        rootMargin: '-80px 0px -70% 0px',
+        threshold: 0
+    };
+
+    var observer = new IntersectionObserver(function(entries) {
+        entries.forEach(function(entry) {
+            var id = entry.target.id;
+            var tocLink = tocNav.querySelector('a[data-target="' + id + '"]');
+            if (tocLink) {
+                if (entry.isIntersecting) {
+                    // Remove active from all
+                    tocLinks.forEach(function(link) {
+                        link.classList.remove('active');
+                    });
+                    tocLink.classList.add('active');
+                }
+            }
+        });
+    }, observerOptions);
+
+    headings.forEach(function(heading) {
+        observer.observe(heading);
+    });
+
+    // Mobile toggle
+    tocMobileToggle.addEventListener('click', function() {
+        tocSidebar.classList.toggle('mobile-open');
+    });
+
+    // Close on outside click (mobile)
+    document.addEventListener('click', function(e) {
+        if (!tocSidebar.contains(e.target) && !tocMobileToggle.contains(e.target)) {
+            tocSidebar.classList.remove('mobile-open');
+        }
+    });
+})();
+</script>
