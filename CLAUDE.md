@@ -2,7 +2,7 @@
 
 ## Project Overview
 
-Jekyll-based personal portfolio and technical blog for Nagesh Dhope (Staff SDE). Hosted on GitHub Pages at https://dhope-nagesh.github.io.
+Jekyll-based personal portfolio and technical blog for Nagesh Dhope (Staff SDE). Hosted on GitHub Pages at https://nageshdhope.me.
 
 ## Tech Stack
 

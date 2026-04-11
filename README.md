@@ -2,7 +2,7 @@
 
 Personal portfolio and technical blog built with Jekyll and hosted on GitHub Pages.
 
-**Live site:** [dhope-nagesh.github.io](https://dhope-nagesh.github.io)
+**Live site:** [nageshdhope.me](https://nageshdhope.me)
 
 ## Sections
 
