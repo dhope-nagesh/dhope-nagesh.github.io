@@ -53,6 +53,7 @@ body {
     color: var(--text-primary);
     line-height: 1.6;
     transition: background-color var(--transition), color var(--transition);
+    overflow-x: hidden;
 }
 
 a {
@@ -742,6 +743,8 @@ a.skill-tag:hover {
     font-weight: 600;
     margin-bottom: 10px;
     line-height: 1.4;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
 }
 
 .blog-card h3 a {
@@ -1748,6 +1751,65 @@ a.skill-tag:hover {
     #blogs .blogs-grid,
     .blog-listing .blogs-grid {
         grid-template-columns: 1fr;
+    }
+
+    .blog-listing {
+        padding: 40px 16px 80px;
+    }
+
+    .blog-listing-title {
+        font-size: 1.6rem;
+    }
+
+    .blog-listing-subtitle {
+        font-size: 0.95rem;
+        margin-bottom: 24px;
+    }
+
+    .blog-search-container {
+        margin-bottom: 16px;
+    }
+
+    .blog-filters {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .blog-dropdown {
+        width: 100%;
+    }
+
+    .blog-dropdown-toggle {
+        width: 100%;
+        justify-content: space-between;
+    }
+
+    .blog-dropdown-menu {
+        width: 100%;
+        left: 0;
+        right: 0;
+    }
+
+    .blog-card {
+        padding: 20px;
+    }
+
+    .blog-meta {
+        flex-wrap: wrap;
+        gap: 6px;
+    }
+
+    .blog-tag {
+        font-size: 0.7rem;
+        padding: 3px 8px;
+    }
+
+    .blog-card h3 {
+        font-size: 1rem;
+    }
+
+    .blog-card p {
+        font-size: 0.85rem;
     }
 
     .edu-cert-grid {
