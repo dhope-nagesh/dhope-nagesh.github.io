@@ -454,151 +454,7 @@ a.skill-tag:hover {
     color: #fff;
 }
 
-/* ===== Timeline ===== */
-.timeline {
-    position: relative;
-    max-width: 800px;
-    margin: 0 auto;
-    padding-left: 48px;
-}
-
-.timeline::before {
-    content: '';
-    position: absolute;
-    left: 10px;
-    top: 8px;
-    bottom: 8px;
-    width: 2px;
-    background: linear-gradient(to bottom, var(--accent), var(--border) 80%);
-    border-radius: 2px;
-}
-
-.timeline-item {
-    position: relative;
-    margin-bottom: 32px;
-}
-
-.timeline-item:last-child {
-    margin-bottom: 0;
-}
-
-.timeline-marker {
-    position: absolute;
-    left: -41px;
-    top: 20px;
-    width: 14px;
-    height: 14px;
-    border-radius: 50%;
-    background: var(--accent);
-    border: 3px solid var(--bg-primary);
-    box-shadow: 0 0 0 2px var(--accent);
-    transition: transform 0.2s ease;
-}
-
-.timeline-marker--current {
-    width: 16px;
-    height: 16px;
-    left: -42px;
-    top: 19px;
-    box-shadow: 0 0 0 3px var(--accent), 0 0 12px color-mix(in srgb, var(--accent) 50%, transparent);
-    animation: pulse-dot 2s infinite;
-}
-
-@keyframes pulse-dot {
-    0%, 100% { box-shadow: 0 0 0 3px var(--accent), 0 0 10px color-mix(in srgb, var(--accent) 40%, transparent); }
-    50%       { box-shadow: 0 0 0 3px var(--accent), 0 0 20px color-mix(in srgb, var(--accent) 70%, transparent); }
-}
-
-.timeline-item:hover .timeline-marker {
-    transform: scale(1.3);
-}
-
-.timeline-content {
-    background: var(--bg-card);
-    border: 1px solid var(--border);
-    border-radius: var(--radius-lg);
-    padding: 24px 28px;
-    transition: box-shadow var(--transition), border-color var(--transition), transform 0.2s ease;
-    position: relative;
-    overflow: hidden;
-}
-
-.timeline-content::before {
-    content: '';
-    position: absolute;
-    left: 0;
-    top: 0;
-    bottom: 0;
-    width: 3px;
-    background: var(--accent);
-    opacity: 0;
-    border-radius: 4px 0 0 4px;
-    transition: opacity 0.2s ease;
-}
-
-.timeline-content:hover {
-    box-shadow: var(--shadow-md);
-    border-color: color-mix(in srgb, var(--accent) 30%, var(--border));
-    transform: translateX(4px);
-}
-
-.timeline-content:hover::before {
-    opacity: 1;
-}
-
-.timeline-content--current {
-    border-color: color-mix(in srgb, var(--accent) 35%, var(--border));
-    background: color-mix(in srgb, var(--accent) 4%, var(--bg-card));
-}
-
-.timeline-content--current::before {
-    opacity: 1;
-}
-
-.timeline-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: flex-start;
-    gap: 16px;
-}
-
-.timeline-company-info {
-    display: flex;
-    align-items: flex-start;
-    gap: 16px;
-}
-
-.company-avatar {
-    width: 44px;
-    height: 44px;
-    border-radius: 10px;
-    background: color-mix(in srgb, var(--avatar-color, var(--accent)) 15%, var(--bg-primary));
-    border: 1px solid color-mix(in srgb, var(--avatar-color, var(--accent)) 30%, transparent);
-    color: var(--avatar-color, var(--accent));
-    font-size: 0.65rem;
-    font-weight: 700;
-    letter-spacing: 0.03em;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-shrink: 0;
-    text-transform: uppercase;
-}
-
-.timeline-title-row {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    flex-wrap: wrap;
-    margin-bottom: 4px;
-}
-
-.timeline-header h3 {
-    font-size: 1.05rem;
-    font-weight: 600;
-    margin: 0;
-}
-
+/* ===== Badges ===== */
 .badge {
     font-size: 0.7rem;
     font-weight: 600;
@@ -614,64 +470,8 @@ a.skill-tag:hover {
     border: 1px solid color-mix(in srgb, var(--accent) 30%, transparent);
 }
 
-.company {
-    color: var(--accent);
-    font-weight: 500;
-    font-size: 0.9rem;
-    margin-bottom: 3px;
-}
 
-.location {
-    color: var(--text-muted);
-    font-size: 0.8rem;
-    display: flex;
-    align-items: center;
-    gap: 4px;
-}
 
-.timeline-meta {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-end;
-    gap: 6px;
-    flex-shrink: 0;
-}
-
-.timeline-date {
-    color: var(--text-muted);
-    font-size: 0.82rem;
-    white-space: nowrap;
-}
-
-.duration-badge {
-    font-size: 0.72rem;
-    font-weight: 500;
-    color: var(--text-muted);
-    background: var(--bg-primary);
-    border: 1px solid var(--border);
-    border-radius: 999px;
-    padding: 2px 8px;
-    white-space: nowrap;
-}
-
-.company-desc {
-    color: var(--text-muted);
-    font-size: 0.9rem;
-    font-style: italic;
-    margin-bottom: 12px;
-}
-
-.timeline-details {
-    list-style: disc;
-    padding-left: 20px;
-}
-
-.timeline-details li {
-    color: var(--text-secondary);
-    font-size: 0.9rem;
-    margin-bottom: 6px;
-    line-height: 1.6;
-}
 
 /* ===== Projects ===== */
 .projects-grid {
@@ -731,6 +531,99 @@ a.skill-tag:hover {
     padding: 4px 10px;
     border: 1px solid var(--border);
     border-radius: 14px;
+}
+
+/* ===== Work Experience Grid ===== */
+.exp-stack {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+    max-width: 960px;
+    margin: 0 auto;
+}
+
+.exp-card-row {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    padding: 28px;
+    transition: transform var(--transition), box-shadow var(--transition);
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.exp-card-row:hover {
+    transform: translateY(-4px);
+    box-shadow: var(--shadow-lg);
+}
+
+.exp-card-row--current {
+    border-left: 3px solid var(--accent);
+}
+
+.exp-card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 6px;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+.exp-company-group {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.exp-company-name {
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: var(--text-primary);
+    margin: 0;
+}
+
+.exp-date {
+    font-size: 0.82rem;
+    color: var(--text-muted);
+    font-weight: 500;
+    white-space: nowrap;
+}
+
+.exp-role-title {
+    font-size: 0.92rem;
+    font-weight: 600;
+    color: var(--accent);
+    margin-bottom: 14px;
+}
+
+.exp-card-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 8px;
+    padding-top: 12px;
+    border-top: 1px solid var(--border);
+}
+
+.exp-location {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 0.78rem;
+    color: var(--text-muted);
+}
+
+.exp-badge-tag {
+    font-size: 0.72rem;
+    color: var(--text-secondary);
+    background: var(--bg-secondary);
+    padding: 3px 9px;
+    border-radius: 6px;
+    border: 1px solid var(--border);
 }
 
 /* ===== Education & Certifications ===== */
@@ -1862,6 +1755,8 @@ a.skill-tag:hover {
         height: 240px;
     }
 
+
+    .exp-stack,
     .projects-grid {
         grid-template-columns: 1fr;
     }
