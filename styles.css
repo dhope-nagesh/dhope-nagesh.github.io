@@ -459,22 +459,23 @@ a.skill-tag:hover {
     position: relative;
     max-width: 800px;
     margin: 0 auto;
-    padding-left: 40px;
+    padding-left: 48px;
 }
 
 .timeline::before {
     content: '';
     position: absolute;
-    left: 8px;
+    left: 10px;
     top: 8px;
     bottom: 8px;
     width: 2px;
-    background: var(--border);
+    background: linear-gradient(to bottom, var(--accent), var(--border) 80%);
+    border-radius: 2px;
 }
 
 .timeline-item {
     position: relative;
-    margin-bottom: 48px;
+    margin-bottom: 32px;
 }
 
 .timeline-item:last-child {
@@ -483,57 +484,174 @@ a.skill-tag:hover {
 
 .timeline-marker {
     position: absolute;
-    left: -36px;
-    top: 6px;
+    left: -41px;
+    top: 20px;
     width: 14px;
     height: 14px;
     border-radius: 50%;
     background: var(--accent);
     border: 3px solid var(--bg-primary);
     box-shadow: 0 0 0 2px var(--accent);
+    transition: transform 0.2s ease;
+}
+
+.timeline-marker--current {
+    width: 16px;
+    height: 16px;
+    left: -42px;
+    top: 19px;
+    box-shadow: 0 0 0 3px var(--accent), 0 0 12px color-mix(in srgb, var(--accent) 50%, transparent);
+    animation: pulse-dot 2s infinite;
+}
+
+@keyframes pulse-dot {
+    0%, 100% { box-shadow: 0 0 0 3px var(--accent), 0 0 10px color-mix(in srgb, var(--accent) 40%, transparent); }
+    50%       { box-shadow: 0 0 0 3px var(--accent), 0 0 20px color-mix(in srgb, var(--accent) 70%, transparent); }
+}
+
+.timeline-item:hover .timeline-marker {
+    transform: scale(1.3);
 }
 
 .timeline-content {
     background: var(--bg-card);
     border: 1px solid var(--border);
     border-radius: var(--radius-lg);
-    padding: 28px;
-    transition: box-shadow var(--transition);
+    padding: 24px 28px;
+    transition: box-shadow var(--transition), border-color var(--transition), transform 0.2s ease;
+    position: relative;
+    overflow: hidden;
+}
+
+.timeline-content::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: 3px;
+    background: var(--accent);
+    opacity: 0;
+    border-radius: 4px 0 0 4px;
+    transition: opacity 0.2s ease;
 }
 
 .timeline-content:hover {
     box-shadow: var(--shadow-md);
+    border-color: color-mix(in srgb, var(--accent) 30%, var(--border));
+    transform: translateX(4px);
+}
+
+.timeline-content:hover::before {
+    opacity: 1;
+}
+
+.timeline-content--current {
+    border-color: color-mix(in srgb, var(--accent) 35%, var(--border));
+    background: color-mix(in srgb, var(--accent) 4%, var(--bg-card));
+}
+
+.timeline-content--current::before {
+    opacity: 1;
 }
 
 .timeline-header {
     display: flex;
     justify-content: space-between;
     align-items: flex-start;
-    margin-bottom: 12px;
     gap: 16px;
 }
 
+.timeline-company-info {
+    display: flex;
+    align-items: flex-start;
+    gap: 16px;
+}
+
+.company-avatar {
+    width: 44px;
+    height: 44px;
+    border-radius: 10px;
+    background: color-mix(in srgb, var(--avatar-color, var(--accent)) 15%, var(--bg-primary));
+    border: 1px solid color-mix(in srgb, var(--avatar-color, var(--accent)) 30%, transparent);
+    color: var(--avatar-color, var(--accent));
+    font-size: 0.65rem;
+    font-weight: 700;
+    letter-spacing: 0.03em;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    text-transform: uppercase;
+}
+
+.timeline-title-row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex-wrap: wrap;
+    margin-bottom: 4px;
+}
+
 .timeline-header h3 {
-    font-size: 1.15rem;
+    font-size: 1.05rem;
     font-weight: 600;
+    margin: 0;
+}
+
+.badge {
+    font-size: 0.7rem;
+    font-weight: 600;
+    padding: 2px 8px;
+    border-radius: 999px;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+}
+
+.badge--current {
+    background: color-mix(in srgb, var(--accent) 15%, transparent);
+    color: var(--accent);
+    border: 1px solid color-mix(in srgb, var(--accent) 30%, transparent);
 }
 
 .company {
     color: var(--accent);
     font-weight: 500;
-    font-size: 0.95rem;
+    font-size: 0.9rem;
+    margin-bottom: 3px;
 }
 
 .location {
     color: var(--text-muted);
-    font-size: 0.85rem;
+    font-size: 0.8rem;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+}
+
+.timeline-meta {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 6px;
+    flex-shrink: 0;
 }
 
 .timeline-date {
     color: var(--text-muted);
-    font-size: 0.85rem;
+    font-size: 0.82rem;
     white-space: nowrap;
-    flex-shrink: 0;
+}
+
+.duration-badge {
+    font-size: 0.72rem;
+    font-weight: 500;
+    color: var(--text-muted);
+    background: var(--bg-primary);
+    border: 1px solid var(--border);
+    border-radius: 999px;
+    padding: 2px 8px;
+    white-space: nowrap;
 }
 
 .company-desc {
