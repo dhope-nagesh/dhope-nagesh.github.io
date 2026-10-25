@@ -14,18 +14,37 @@ themeToggle.addEventListener('click', () => {
 const navToggle = document.getElementById('navToggle');
 const navMenu = document.getElementById('navMenu');
 
-navToggle.addEventListener('click', () => {
-    navMenu.classList.toggle('open');
-    navToggle.classList.toggle('active');
-});
-
-// Close mobile menu on link click
-navMenu.querySelectorAll('.nav-link').forEach(link => {
-    link.addEventListener('click', () => {
-        navMenu.classList.remove('open');
-        navToggle.classList.remove('active');
+if (navToggle && navMenu) {
+    navToggle.addEventListener('click', (e) => {
+        e.stopPropagation();
+        navMenu.classList.toggle('open');
+        navToggle.classList.toggle('active');
     });
-});
+
+    // Close mobile menu on link click
+    navMenu.querySelectorAll('.nav-link').forEach(link => {
+        link.addEventListener('click', () => {
+            navMenu.classList.remove('open');
+            navToggle.classList.remove('active');
+        });
+    });
+
+    // Close mobile menu on click outside
+    document.addEventListener('click', (e) => {
+        if (navMenu.classList.contains('open') && !navMenu.contains(e.target) && !navToggle.contains(e.target)) {
+            navMenu.classList.remove('open');
+            navToggle.classList.remove('active');
+        }
+    });
+
+    // Close mobile menu on Escape key
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && navMenu.classList.contains('open')) {
+            navMenu.classList.remove('open');
+            navToggle.classList.remove('active');
+        }
+    });
+}
 
 // Navbar scroll effect
 const navbar = document.getElementById('navbar');

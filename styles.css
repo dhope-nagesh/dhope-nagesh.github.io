@@ -62,6 +62,8 @@
 html {
     scroll-behavior: smooth;
     scroll-padding-top: calc(var(--nav-height) + 24px);
+    overflow-x: hidden;
+    max-width: 100%;
 }
 
 body {
@@ -71,6 +73,7 @@ body {
     line-height: 1.6;
     transition: background-color var(--transition), color var(--transition);
     overflow-x: hidden;
+    max-width: 100%;
     position: relative;
     min-height: 100vh;
 }
@@ -138,22 +141,28 @@ img {
 }
 
 /* ===== Floating Pill Navigation ===== */
-.navbar {
+.navbar,
+.blog-nav {
     position: fixed;
-    top: 14px;
-    left: 0;
-    right: 0;
+    top: 12px;
+    left: 12px;
+    right: 12px;
+    width: auto;
+    max-width: 980px;
+    margin: 0 auto;
     z-index: 1000;
     background: transparent;
     border: none;
     pointer-events: none;
+    padding: 0;
     transition: all var(--transition);
 }
 
-.nav-container {
-    max-width: 980px;
-    margin: 0 auto;
-    padding: 8px 18px;
+.nav-container,
+.blog-nav .nav-container {
+    position: relative;
+    width: 100%;
+    padding: 8px 16px;
     background: var(--bg-card);
     backdrop-filter: blur(20px);
     -webkit-backdrop-filter: blur(20px);
@@ -165,9 +174,11 @@ img {
     justify-content: space-between;
     pointer-events: auto;
     transition: all var(--transition);
+    box-sizing: border-box;
 }
 
-.navbar.scrolled .nav-container {
+.navbar.scrolled .nav-container,
+.blog-nav.scrolled .nav-container {
     box-shadow: var(--shadow-lg);
     border-color: var(--border-hover);
     background: var(--bg-card-hover);
@@ -176,6 +187,7 @@ img {
 .nav-logo {
     display: flex;
     align-items: center;
+    flex-shrink: 0;
 }
 
 .nav-logo img {
@@ -213,6 +225,13 @@ img {
     background: var(--accent-light);
 }
 
+.nav-actions {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-shrink: 0;
+}
+
 .theme-toggle {
     width: 36px;
     height: 36px;
@@ -225,6 +244,7 @@ img {
     align-items: center;
     justify-content: center;
     transition: all var(--transition);
+    flex-shrink: 0;
 }
 
 .theme-toggle:hover {
@@ -240,19 +260,45 @@ img {
 .nav-toggle {
     display: none;
     flex-direction: column;
+    justify-content: center;
+    align-items: center;
     gap: 5px;
-    background: none;
-    border: none;
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    background: var(--bg-secondary);
+    border: 1px solid var(--border);
     cursor: pointer;
-    padding: 4px;
+    padding: 0;
+    transition: all var(--transition);
+    flex-shrink: 0;
+}
+
+.nav-toggle:hover {
+    border-color: var(--accent);
 }
 
 .nav-toggle span {
-    width: 22px;
+    display: block;
+    width: 18px;
     height: 2px;
     background: var(--text-primary);
     border-radius: 2px;
-    transition: all var(--transition);
+    transition: transform var(--transition), opacity var(--transition);
+    transform-origin: center;
+}
+
+.nav-toggle.active span:nth-child(1) {
+    transform: translateY(7px) rotate(45deg);
+}
+
+.nav-toggle.active span:nth-child(2) {
+    opacity: 0;
+    transform: scaleX(0);
+}
+
+.nav-toggle.active span:nth-child(3) {
+    transform: translateY(-7px) rotate(-45deg);
 }
 
 /* ===== Hero Section ===== */
@@ -543,6 +589,7 @@ img {
     text-align: center;
     transition: all var(--transition);
     box-shadow: var(--shadow);
+    min-width: 0;
 }
 
 .stat:hover {
@@ -568,6 +615,8 @@ img {
     letter-spacing: 0.5px;
     margin-top: 6px;
     display: block;
+    word-break: break-word;
+    overflow-wrap: break-word;
 }
 
 /* ===== Skills ===== */
@@ -1155,46 +1204,12 @@ a.skill-tag:hover {
     box-shadow: 0 0 10px rgba(99, 102, 241, 0.7);
 }
 
-/* ===== Blog Nav (Floating Capsule) ===== */
-.blog-nav {
-    position: fixed;
-    top: 14px;
-    left: 0;
-    right: 0;
-    z-index: 1000;
-    background: transparent;
-    border: none;
-    pointer-events: none;
-    transition: all var(--transition);
-}
-
-.blog-nav .nav-container {
-    max-width: 980px;
-    margin: 0 auto;
-    padding: 8px 18px;
-    background: var(--bg-card);
-    backdrop-filter: blur(20px);
-    -webkit-backdrop-filter: blur(20px);
-    border: 1px solid var(--border);
-    border-radius: 999px;
-    box-shadow: var(--shadow-md);
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    pointer-events: auto;
-    transition: all var(--transition);
-}
-
-.blog-nav.scrolled .nav-container {
-    box-shadow: var(--shadow-lg);
-    border-color: var(--border-hover);
-    background: var(--bg-card-hover);
-}
-
+/* ===== Blog Nav Links ===== */
 .blog-nav-links {
     display: flex;
     gap: 8px;
     align-items: center;
+    flex-shrink: 0;
 }
 
 .blog-nav-links .nav-link {
@@ -1983,26 +1998,46 @@ a.skill-tag:hover {
 }
 
 /* ===== Responsive ===== */
-@media (max-width: 768px) {
+@media (max-width: 900px) {
     .nav-toggle {
         display: flex;
     }
 
-    .navbar {
+    .navbar,
+    .blog-nav {
         top: 10px;
-        padding: 0 12px;
+        left: 10px;
+        right: 10px;
+        padding: 0;
     }
 
-    .nav-container {
-        border-radius: 20px;
-        padding: 6px 14px;
+    .nav-container,
+    .blog-nav .nav-container {
+        border-radius: 999px;
+        padding: 6px 12px;
+    }
+
+    .nav-actions {
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        flex-shrink: 0;
+    }
+
+    .theme-toggle,
+    .nav-toggle {
+        width: 36px;
+        height: 36px;
+        flex-shrink: 0;
     }
 
     .nav-menu {
+        display: none;
         position: absolute;
         top: calc(100% + 8px);
-        left: 12px;
-        right: 12px;
+        left: 0;
+        right: 0;
+        width: 100%;
         background: var(--bg-card-hover);
         backdrop-filter: blur(24px);
         -webkit-backdrop-filter: blur(24px);
@@ -2010,25 +2045,48 @@ a.skill-tag:hover {
         border-radius: 20px;
         flex-direction: column;
         gap: 4px;
-        padding: 14px;
-        transform: translateY(-10px);
-        opacity: 0;
-        visibility: hidden;
-        transition: all var(--transition);
+        padding: 12px;
         box-shadow: var(--shadow-lg);
+        z-index: 1001;
     }
 
     .nav-menu.open {
-        transform: translateY(0);
-        opacity: 1;
-        visibility: visible;
+        display: flex;
+        animation: navSlideDown 0.25s cubic-bezier(0.16, 1, 0.3, 1) forwards;
     }
 
     .nav-link {
         display: block;
-        padding: 10px 14px;
+        padding: 12px 16px;
         border-radius: 12px;
+        font-size: 0.95rem;
     }
+
+    .blog-nav-links {
+        display: flex;
+        gap: 6px;
+        align-items: center;
+        flex-shrink: 1;
+        min-width: 0;
+    }
+
+    .blog-nav-links .nav-link {
+        padding: 5px 10px;
+        font-size: 0.82rem;
+        white-space: nowrap;
+    }
+}
+
+@keyframes navSlideDown {
+    from {
+        opacity: 0;
+        transform: translateY(-8px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
 
     .hero-container {
         grid-template-columns: 1fr;
@@ -2155,11 +2213,53 @@ a.skill-tag:hover {
     }
 
     .about-stats {
-        gap: 24px;
+        gap: 16px;
+    }
+}
+
+@media (max-width: 600px) {
+    .about-stats {
+        gap: 10px;
+        margin-top: 32px;
+    }
+
+    .stat {
+        padding: 16px 8px;
+    }
+
+    .stat-number {
+        font-size: 1.8rem;
+    }
+
+    .stat-label {
+        font-size: 0.7rem;
+        letter-spacing: 0.2px;
     }
 }
 
 @media (max-width: 480px) {
+    .container {
+        padding: 0 16px;
+    }
+
+    .about-stats {
+        gap: 8px;
+    }
+
+    .stat {
+        padding: 14px 6px;
+    }
+
+    .stat-number {
+        font-size: 1.6rem;
+    }
+
+    .stat-label {
+        font-size: 0.65rem;
+        letter-spacing: 0;
+        line-height: 1.25;
+    }
+
     .hero-name {
         font-size: 2rem;
     }
@@ -2185,5 +2285,27 @@ a.skill-tag:hover {
     .btn {
         width: 100%;
         justify-content: center;
+    }
+}
+
+@media (max-width: 360px) {
+    .container {
+        padding: 0 12px;
+    }
+
+    .about-stats {
+        gap: 6px;
+    }
+
+    .stat {
+        padding: 12px 4px;
+    }
+
+    .stat-number {
+        font-size: 1.5rem;
+    }
+
+    .stat-label {
+        font-size: 0.62rem;
     }
 }
