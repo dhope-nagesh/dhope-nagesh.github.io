@@ -27,8 +27,7 @@
     <link rel="icon" type="image/svg+xml" href="{{ '/assets/favicon.svg' | relative_url }}">
     <link rel="alternate" type="application/rss+xml" title="Nagesh Dhope's Blog" href="{{ '/feed.xml' | absolute_url }}">
     <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="{{ '/styles.css' | relative_url }}">
     {% if page.layout == 'post' %}
     <!-- Structured Data: BlogPosting -->
@@ -88,6 +87,7 @@
     {% endif %}
 </head>
 <body>
+    <div id="readingProgressBar" class="reading-progress-bar"></div>
     <nav class="blog-nav" id="navbar">
         <div class="nav-container">
             <a href="{{ '/' | relative_url }}" class="nav-logo"><img src="{{ '/assets/photo.jpeg' | relative_url }}" alt="Nagesh Dhope"></a>
@@ -125,10 +125,16 @@
             localStorage.setItem('theme', next);
         });
 
-        // Navbar scroll effect
-        const navbar = document.getElementById('navbar');
+        // Reading progress indicator
+        const progressBar = document.getElementById('readingProgressBar');
         window.addEventListener('scroll', () => {
             navbar.classList.toggle('scrolled', window.scrollY > 10);
+            if (progressBar) {
+                const totalHeight = document.documentElement.scrollHeight - window.innerHeight;
+                if (totalHeight > 0) {
+                    progressBar.style.width = ((window.scrollY / totalHeight) * 100) + '%';
+                }
+            }
         });
 
         // Code copy buttons

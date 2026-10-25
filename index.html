@@ -30,8 +30,7 @@ layout: null
     <link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
     <link rel="alternate" type="application/rss+xml" title="Nagesh Dhope's Blog" href="https://nageshdhope.me/feed.xml">
     <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="styles.css">
     <!-- Structured Data -->
     <script type="application/ld+json">
@@ -104,14 +103,33 @@ layout: null
     <section class="hero" id="hero">
         <div class="hero-container">
             <div class="hero-content">
-                <p class="hero-greeting">Hello, I'm</p>
+                <div class="hero-status-pill">
+                    <span class="status-dot"></span>
+                    <span>Staff Software Engineer @ ServiceNow</span>
+                </div>
                 <h1 class="hero-name">Nagesh Dhope</h1>
-                <h2 class="hero-title">Software Engineer</h2>
-                <p class="hero-description">Building scalable cloud-native systems, Kubernetes operators, and
-                    distributed microservices with 10+ years of experience.</p>
+                <h2 class="hero-title">Staff Software Engineer &amp; Systems Architect</h2>
+                <p class="hero-description">Architecting distributed systems, Kubernetes operators, hybrid DBaaS platforms, and high-performance cloud engines with 10+ years of engineering experience.</p>
+                <div class="hero-stats-row">
+                    <div class="hero-stat-badge">
+                        <span class="stat-number">10+</span>
+                        <span class="stat-label">Years Exp</span>
+                    </div>
+                    <div class="hero-stat-badge">
+                        <span class="stat-number">DBaaS</span>
+                        <span class="stat-label">Postgres &amp; AI</span>
+                    </div>
+                    <div class="hero-stat-badge">
+                        <span class="stat-number">K8s</span>
+                        <span class="stat-label">Platform Eng</span>
+                    </div>
+                </div>
                 <div class="hero-actions">
-                    <a href="#contact" class="btn btn-primary">Get In Touch</a>
-
+                    <a href="#contact" class="btn btn-primary">
+                        <span>Get In Touch</span>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+                    </a>
+                    <a href="#projects" class="btn btn-outline">View Projects</a>
                 </div>
                 <div class="hero-socials">
                     <a href="https://www.linkedin.com/in/nagesh-dhope-8b400513b" target="_blank" rel="noopener"
@@ -149,6 +167,7 @@ layout: null
             </div>
             <div class="hero-image">
                 <div class="hero-image-wrapper">
+                    <div class="hero-image-glow"></div>
                     <img src="assets/photo.jpeg" alt="Nagesh Dhope" loading="eager">
                 </div>
             </div>
@@ -161,7 +180,8 @@ layout: null
             <h2 class="section-title">About Me</h2>
             <div class="about-content">
                 <p>I'm a Software Engineer with over 10 years of
-                    experience building enterprise-grade software solutions. Most recently, I worked at
+                    experience building enterprise-grade software solutions. Currently, I work as a
+                    <strong>Staff Software Engineer at ServiceNow</strong>, focusing on Kubernetes and platform engineering. Previously, I spent over 7 years at
                     <strong>EnterpriseDB</strong>,
                     specializing in designing and developing cloud-native applications, Kubernetes operators, and
                     distributed microservices that power database platforms used by organizations worldwide.
@@ -190,7 +210,7 @@ layout: null
                         <span class="stat-label">Years Experience</span>
                     </div>
                     <div class="stat">
-                        <span class="stat-number">3</span>
+                        <span class="stat-number">4</span>
                         <span class="stat-label">Companies</span>
                     </div>
                     <div class="stat">
