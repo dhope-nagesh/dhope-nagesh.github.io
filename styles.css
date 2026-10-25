@@ -553,7 +553,7 @@ img {
 
 /* ===== About ===== */
 .about-content {
-    max-width: 760px;
+    max-width: 100%;
     margin: 0 auto;
 }
 
@@ -562,6 +562,9 @@ img {
     margin-bottom: 18px;
     font-size: 1.05rem;
     line-height: 1.8;
+    overflow-wrap: break-word;
+    word-wrap: break-word;
+    text-wrap: pretty;
 }
 
 .about-stats {
@@ -776,8 +779,8 @@ a.skill-tag:hover {
 .exp-stack {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
-    gap: 20px;
-    max-width: 960px;
+    gap: 24px;
+    max-width: 100%;
     margin: 0 auto;
 }
 
