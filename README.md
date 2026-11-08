@@ -31,8 +31,8 @@ The blog listing page (`/blog/`) includes multi-select dropdown filters for topi
 
 - **Static site generator:** Jekyll (via `github-pages` gem)
 - **Hosting:** GitHub Pages with automated deployment
-- **Styling:** Custom CSS with CSS variables, light/dark theme support
-- **JavaScript:** Vanilla JS — theme toggle, mobile nav, scroll animations, blog filters, code copy buttons
+- **Styling:** Custom CSS with CSS variables, light/dark theme support and 7 selectable color palettes
+- **JavaScript:** Vanilla JS — theme toggle, palette switcher, mobile nav, scroll animations, blog filters, code copy buttons
 
 ## Project Structure
 

@@ -1,14 +1,67 @@
+// Theme & Palette Initial Setup
+const savedTheme = localStorage.getItem('theme') || 'light';
+const savedPalette = localStorage.getItem('palette') || 'indigo';
+document.documentElement.setAttribute('data-theme', savedTheme);
+document.documentElement.setAttribute('data-palette', savedPalette);
+
 // Theme Toggle
 const themeToggle = document.getElementById('themeToggle');
-const savedTheme = localStorage.getItem('theme') || 'light';
-document.documentElement.setAttribute('data-theme', savedTheme);
+if (themeToggle) {
+    themeToggle.addEventListener('click', () => {
+        const current = document.documentElement.getAttribute('data-theme');
+        const next = current === 'dark' ? 'light' : 'dark';
+        document.documentElement.setAttribute('data-theme', next);
+        localStorage.setItem('theme', next);
+    });
+}
 
-themeToggle.addEventListener('click', () => {
-    const current = document.documentElement.getAttribute('data-theme');
-    const next = current === 'dark' ? 'light' : 'dark';
-    document.documentElement.setAttribute('data-theme', next);
-    localStorage.setItem('theme', next);
-});
+// Palette Switcher
+const paletteToggle = document.getElementById('paletteToggle');
+const paletteMenu = document.getElementById('paletteMenu');
+
+function updateActivePaletteUI(palette) {
+    if (!paletteMenu) return;
+    paletteMenu.querySelectorAll('.palette-option').forEach(btn => {
+        const val = btn.getAttribute('data-palette-val');
+        btn.classList.toggle('active', val === palette);
+    });
+}
+
+if (paletteToggle && paletteMenu) {
+    updateActivePaletteUI(savedPalette);
+
+    paletteToggle.addEventListener('click', (e) => {
+        e.stopPropagation();
+        const isOpen = paletteMenu.classList.toggle('open');
+        paletteToggle.setAttribute('aria-expanded', isOpen);
+    });
+
+    paletteMenu.querySelectorAll('.palette-option').forEach(btn => {
+        btn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            const chosen = btn.getAttribute('data-palette-val');
+            document.documentElement.setAttribute('data-palette', chosen);
+            localStorage.setItem('palette', chosen);
+            updateActivePaletteUI(chosen);
+            paletteMenu.classList.remove('open');
+            paletteToggle.setAttribute('aria-expanded', 'false');
+        });
+    });
+
+    document.addEventListener('click', (e) => {
+        if (!paletteMenu.contains(e.target) && !paletteToggle.contains(e.target)) {
+            paletteMenu.classList.remove('open');
+            paletteToggle.setAttribute('aria-expanded', 'false');
+        }
+    });
+
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && paletteMenu.classList.contains('open')) {
+            paletteMenu.classList.remove('open');
+            paletteToggle.setAttribute('aria-expanded', 'false');
+        }
+    });
+}
 
 // Mobile Navigation Toggle
 const navToggle = document.getElementById('navToggle');
