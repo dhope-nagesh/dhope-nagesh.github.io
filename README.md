@@ -80,3 +80,4 @@ Pushes to `main` trigger the GitHub Actions workflow (`.github/workflows/deploy.
 - Copy-to-clipboard buttons on all code blocks in blog posts
 - Blog filtering by topics (with search) and dates
 - Smooth scroll and fade-in animations
+
